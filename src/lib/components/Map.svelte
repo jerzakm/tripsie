@@ -8,7 +8,7 @@
 			'pk.eyJ1IjoiamVyemFrbSIsImEiOiJjangxaHF4MGcwN3ZqNGJubzl2Zzdva3N5In0.DRchXs3ESLUuoH9Kh_N-ow';
 		const map = new mapboxgl.Map({
 			container: 'map', // container ID
-			style: 'mapbox://styles/mapbox/streets-v11', // style URL
+			style: 'mapbox://styles/jerzakm/cl3njkens000614s1xutw0naf', // style URL
 			center: [-74.5, 40], // starting position [lng, lat]
 			zoom: 9 // starting zoom
 		});
