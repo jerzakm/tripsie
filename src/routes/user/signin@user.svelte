@@ -16,11 +16,11 @@
   plugins: [require('@tailwindcss/forms')]
 -->
 
-<img
+<!-- <img
 	src="/images/login_topography.svg"
 	class="fixed top-0 left-0"
 	alt="topography vector background"
-/>
+/> -->
 
 <content>
 	<card>
