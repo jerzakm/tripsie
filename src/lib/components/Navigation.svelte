@@ -20,7 +20,7 @@
 		</ul>
 		<div class="items-center justify-end space-x-4 font-bold">
 			<!-- <a class="px-5 py-2 rounded-sm new-video" href="">Sign in </a> -->
-			<Button class="z-20 w-full" href="/signin">Sign in</Button>
+			<Button class="z-20 w-full" href="/user/signin">Sign in</Button>
 		</div>
 	</menu>
 </nav>

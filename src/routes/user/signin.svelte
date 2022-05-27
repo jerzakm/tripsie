@@ -94,7 +94,7 @@
 			</div>
 			<p class="text-sm ">
 				No account?
-				<a class="underline font-bold" href="/signup">Sign up</a>
+				<a class="underline font-bold" href="/user/signup">Sign up</a>
 			</p>
 		</form>
 	</card>
