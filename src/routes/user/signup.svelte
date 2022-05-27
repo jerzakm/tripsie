@@ -1,20 +1,16 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import { registerWithEmail } from '$lib/supabase/supaAuth';
 
-	function submitLogin(e: MouseEvent) {
+	let email: string | undefined;
+	let password: string | undefined;
+
+	async function submitLogin(e: MouseEvent) {
 		e.preventDefault();
-		console.log('logging in...');
+		if (!email || !password) return;
+		const res = await registerWithEmail(email, password);
 	}
 </script>
-
-<!--
-  This component uses @tailwindcss/forms
-
-  yarn add @tailwindcss/forms
-  npm install @tailwindcss/forms
-
-  plugins: [require('@tailwindcss/forms')]
--->
 
 <img
 	src="/images/login_topography.svg"
@@ -32,7 +28,7 @@
 			<div>
 				<label for="email" class="sr-only">Email</label>
 				<div class="relative">
-					<input type="email" class="login-input" placeholder="Enter email" />
+					<input type="email" class="login-input" placeholder="Enter email" bind:value={email} />
 
 					<span class="absolute inset-y-0 inline-flex items-center right-4">
 						<svg
@@ -56,7 +52,12 @@
 			<div>
 				<label for="password" class="sr-only">Password</label>
 				<div class="relative">
-					<input type="password" class="login-input" placeholder="Enter password" />
+					<input
+						type="password"
+						class="login-input"
+						placeholder="Enter password"
+						bind:value={password}
+					/>
 
 					<span class="absolute inset-y-0 inline-flex items-center right-4">
 						<svg
