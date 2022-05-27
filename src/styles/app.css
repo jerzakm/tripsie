@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #fcf4e7;
+	font-family: 'Circular Std', Roboto, Helvetica, Arial, sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+ul {
+	list-style: none;
+}
+
+h1 {
+	font-size: 4.2rem;
+	@apply font-black;
+}
+h2 {
+	font-size: 1.99rem;
+	line-height: 1rem;
+}
