@@ -1,10 +1,11 @@
 <script lang="ts">
-	import Header from '$lib/components/Header.svelte';
+	import Navigation from '$lib/components/Navigation.svelte';
 	import '../styles/app.css';
 	import '../styles/fonts.css';
 </script>
 
-<Header />
+<!-- <Header /> -->
+<Navigation />
 <main>
 	<slot />
 </main>

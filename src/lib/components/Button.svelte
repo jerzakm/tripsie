@@ -16,8 +16,7 @@
 	.button {
 		border: 2px solid var(--border-color);
 		box-shadow: var(--primary-color) 3px 3px;
-		@apply px-4 py-2 flex justify-between absolute font-normal;
-		font-size: 1.8rem;
+		@apply px-4 py-2 flex justify-between;
 		background-color: var(--background-color);
 	}
 </style>
