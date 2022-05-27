@@ -3,11 +3,26 @@
 </script>
 
 {#if href}
-	<a {href} class={`button ${$$props.class}`} style={$$props.style}>
+	<a
+		{href}
+		class={`button ${$$props.class}`}
+		style={$$props.style}
+		on:click
+		on:mouseover
+		on:mouseenter
+		on:mouseleave
+	>
 		<slot />
 	</a>
 {:else}
-	<button class={`button ${$$props.class}`} style={$$props.style}>
+	<button
+		class={`button ${$$props.class}`}
+		style={$$props.style}
+		on:click
+		on:mouseover
+		on:mouseenter
+		on:mouseleave
+	>
 		<slot />
 	</button>
 {/if}
