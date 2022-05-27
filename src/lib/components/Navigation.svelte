@@ -20,14 +20,14 @@
 		</ul>
 		<div class="items-center justify-end space-x-4 font-bold">
 			<!-- <a class="px-5 py-2 rounded-sm new-video" href="">Sign in </a> -->
-			<Button class="z-20 w-full" href="/">Sign in</Button>
+			<Button class="z-20 w-full" href="/signin">Sign in</Button>
 		</div>
 	</menu>
 </nav>
 
 <style lang="scss">
 	nav {
-		@apply sticky top-0 p-5 w-full;
+		@apply fixed top-0 p-5 w-full;
 		@apply flex justify-between items-center;
 		z-index: 9999;
 		background: var(--background-color);

@@ -11,8 +11,6 @@
 
 <style>
 	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
+		@apply flex flex-1 flex-col;
 	}
 </style>

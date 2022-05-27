@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	</div>
-	<Button class="z-20 mt-8">
+	<Button class="z-20 mt-8" href="/signin">
 		<span>Start now</span>
 		<span>&gt</span>
 	</Button>

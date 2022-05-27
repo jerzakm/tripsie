@@ -32,3 +32,16 @@ h2 {
 	font-weight: 400;
 	@apply text-xl;
 }
+
+input {
+	border: solid var(--border-color) 2px;
+	box-shadow: var(--text-color) 4px 4px;
+	transition: 100ms all ease;
+}
+
+input:focus {
+	outline: none;
+	border: solid var(--border-color) 2px;
+	box-shadow: var(--primary-color) 4px 4px;
+	transform: scale(1.03);
+}
