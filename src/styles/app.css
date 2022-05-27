@@ -1,3 +1,5 @@
+@import './theme.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,6 +14,7 @@
 body {
 	background-color: #fcf4e7;
 	font-family: 'Circular Std', Roboto, Helvetica, Arial, sans-serif;
+	@apply text-base;
 }
 
 a {
@@ -22,10 +25,10 @@ ul {
 }
 
 h1 {
-	font-size: 4.2rem;
-	@apply font-black;
+	font-weight: 700;
+	@apply text-2xl;
 }
 h2 {
-	font-size: 1.99rem;
-	line-height: 1rem;
+	font-weight: 400;
+	@apply text-xl;
 }
