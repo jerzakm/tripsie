@@ -1,11 +1,12 @@
 <script lang="ts">
+	import Button from '$lib/components/Button.svelte';
 </script>
 
 <hero>
 	<cta>
 		<div>
-			<h1>Explore the unknown.</h1>
-			<h2>with the world's first map based video browser</h2>
+			<h1 class="text-3xl">Explore the unknown.</h1>
+			<h2 class="text-xl">with the world's first map based video browser</h2>
 		</div>
 	</cta>
 
@@ -20,38 +21,22 @@
 					<track kind="captions" />
 				</video>
 			</div>
-
-			<button id="cta-start-btn">
-				<span>Start now</span>
-				<span>&gt</span>
-			</button>
 		</div>
 	</div>
+	<Button class="z-20 mt-8">
+		<span>Start now</span>
+		<span>&gt</span>
+	</Button>
 </hero>
 
 <style lang="scss">
-	#cta-start-btn {
-		@apply px-4 py-2 flex justify-between absolute;
-		font-size: 1.8rem;
-		border: 2px solid black;
-		box-shadow: #e55151 3px 3px;
-		background-color: #fcf4e7;
-		bottom: -120px;
-		right: 0;
-		width: 50%;
-
-		@apply z-20;
-	}
-
 	hero {
-		@apply flex mt-24 px-24 flex-col items-center;
+		@apply flex mt-24 px-10 md:px-24 flex-col items-center;
 		min-height: 70vh;
 
 		cta {
 			@apply flex flex-col items-center;
-			div {
-				min-height: 20vh;
-			}
+			@apply mb-12 lg:mb-20;
 		}
 		.graphics {
 			@apply flex;
@@ -59,22 +44,34 @@
 			#resting-person {
 				position: absolute;
 				bottom: 0;
-				transform: translate(-45%, 45%);
+				transform: translate(calc(-30vmin + 30px), calc(50px + 25vmin));
 				@apply z-20;
 			}
+			background-color: var(--border-color);
 
 			#hero-vid {
 				@apply flex flex-col;
-				border: 3px solid black;
+				border: 5px solid black;
 				border-radius: 4px;
-				width: 600px;
-				height: 320px;
+				min-width: 200px;
+				// width: 600px;
+				width: calc(200px + 35vmin);
+				height: calc(100px + 19vmin);
 				position: relative;
 
 				#vid-wrapper {
 					overflow: hidden;
-					max-height: 100%;
 					position: relative;
+					width: 100%;
+					height: 100%;
+
+					@apply flex;
+					video {
+						width: 110%;
+						height: 110%;
+						object-fit: cover;
+						object-position: 50% 100%;
+					}
 				}
 
 				img {

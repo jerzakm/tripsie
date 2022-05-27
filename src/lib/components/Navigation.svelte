@@ -29,13 +29,14 @@
 	nav {
 		@apply sticky top-0 p-5 w-full;
 		@apply flex justify-between items-center;
+		z-index: 9999;
 		background: var(--background-color);
 		label {
-			@apply absolute hidden top-0 right-0 cursor-pointer z-10;
+			@apply absolute hidden top-0 right-0 cursor-pointer;
 			height: 70px;
 			width: 70px;
 			background: var(--primary-color);
-
+			z-index: 9999;
 			span {
 				display: block;
 				margin: 4px auto;

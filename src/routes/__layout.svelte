@@ -4,7 +4,6 @@
 	import '../styles/fonts.css';
 </script>
 
-<!-- <Header /> -->
 <Navigation />
 <main>
 	<slot />
