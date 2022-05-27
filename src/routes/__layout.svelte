@@ -5,12 +5,14 @@
 </script>
 
 <Navigation />
-<main>
-	<slot />
-</main>
 
+<slot />
+
+<!-- <main>
+	<slot />
+</main> -->
 <style>
 	main {
-		@apply flex flex-1 flex-col;
+		@apply flex flex-col;
 	}
 </style>

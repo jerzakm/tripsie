@@ -15,6 +15,7 @@ body {
 	background-color: #fcf4e7;
 	font-family: 'Circular Std', Roboto, Helvetica, Arial, sans-serif;
 	@apply text-base;
+	overflow-x: hidden;
 }
 
 a {
