@@ -1,5 +1,6 @@
 <script>
 	import Button from '$lib/components/Button.svelte';
+	import { signOut, userStore } from '$lib/supabase/supaAuth';
 </script>
 
 <nav>
@@ -18,9 +19,17 @@
 			<li><a href="/">Community</a></li>
 			<li><a href="/">About</a></li>
 		</ul>
-		<div class="items-center justify-end space-x-4 font-bold">
-			<!-- <a class="px-5 py-2 rounded-sm new-video" href="">Sign in </a> -->
-			<Button class="w-full" href="/user/signin">Sign in</Button>
+		<div class="items-center justify-end space-x-4 font-bold flex">
+			{#if $userStore}
+				<span class="text-xs font-normal">{$userStore.email}</span>
+				<Button
+					on:click={async () => {
+						await signOut();
+					}}>Sign out</Button
+				>
+			{:else}
+				<Button class="w-full" href="/user/signin">Sign in</Button>
+			{/if}
 		</div>
 	</menu>
 </nav>

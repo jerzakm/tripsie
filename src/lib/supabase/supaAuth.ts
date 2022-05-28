@@ -15,8 +15,9 @@ supabase.auth.onAuthStateChange((event, session) => {
 	// 'USER_UPDATED'
 	// 'USER_DELETED'
 
+	console.log(`AUTH STATE CHANGE EVENT: ${event}`);
+
 	if (event == 'SIGNED_IN') {
-		console.log('user signed in', session?.user);
 		userStore.set(session?.user);
 	}
 	if (event == 'SIGNED_OUT') {
@@ -30,4 +31,8 @@ export const registerWithEmail = async (email: string, password: string) => {
 
 export const signInWithEmail = async (email: string, password: string) => {
 	return await supabase.auth.signIn({ email, password });
+};
+
+export const signOut = async () => {
+	return await supabase.auth.signOut();
 };
