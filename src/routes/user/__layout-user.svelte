@@ -1,5 +1,5 @@
 <script context="module">
-	/** @type {import('@sveltejs/kit').Load} */
+	// @ts-ignore
 	export const load = async ({ url }) => ({ props: { url } });
 </script>
 
@@ -26,13 +26,16 @@
 		@apply fixed top-0 left-0;
 		z-index: -10;
 		pointer-events: none;
+		width: 100vw;
+		height: 100vh;
+		object-fit: cover;
 	}
 
 	content {
-		@apply relative flex h-screen items-center;
+		@apply relative flex h-screen items-center justify-center;
 	}
 	card {
-		@apply mx-auto text-center px-4 py-8 xl:px-16 lg:py-16;
+		@apply mx-2 text-center px-4 py-8 xl:px-16 lg:py-16;
 		max-width: calc(20rem + 25vmin);
 		border: solid var(--border-color) 8px;
 		background-color: var(--background-color);
