@@ -2,7 +2,7 @@
 	"name": "tripsie",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "svelte-kit dev",
+		"dev": "svelte-kit dev --host",
 		"build": "svelte-kit build",
 		"package": "svelte-kit package",
 		"preview": "svelte-kit preview",
@@ -31,6 +31,7 @@
 		"sass": "^1.52.1",
 		"svelte": "^3.46.0",
 		"svelte-check": "^2.2.6",
+		"svelte-loading-spinners": "^0.1.7",
 		"svelte-preprocess": "^4.10.6",
 		"tailwindcss": "^3.0.24",
 		"tslib": "^2.3.1",
@@ -40,6 +41,7 @@
 	"dependencies": {
 		"@prisma/client": "^3.14.0",
 		"cookie": "^0.4.1",
+		"lottie-web": "^5.9.4",
 		"mapbox-gl": "^2.8.2"
 	}
 }
