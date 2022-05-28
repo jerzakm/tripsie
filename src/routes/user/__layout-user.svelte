@@ -38,7 +38,6 @@
 		@apply relative flex h-screen items-center justify-center;
 		min-width: 300px;
 		min-height: 300px;
-		transition: all 0.1s ease-in;
 	}
 	card {
 		@apply mx-2 text-center px-4 py-8 xl:px-16 lg:py-16 grow;
@@ -46,6 +45,5 @@
 		border: solid var(--border-color) 8px;
 		background-color: var(--background-color);
 		box-shadow: var(--primary-color) 5px 5px;
-		transition: all 0.1s ease-in;
 	}
 </style>

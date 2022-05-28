@@ -59,7 +59,12 @@
 	{/if}
 </div>
 
-<form action="" class="max-w-md mx-auto mt-8 mb-0 space-y-4 relative">
+<form
+	action=""
+	class={`max-w-md mx-auto mt-8 mb-0 space-y-4 relative ${
+		status == 'SIGNED_IN' ? 'opacity-0' : ''
+	}`}
+>
 	<div>
 		<label for="email" class="sr-only">Email</label>
 		<div class="relative">
