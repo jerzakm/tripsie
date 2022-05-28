@@ -12,7 +12,10 @@
 {#key url}
 	<content>
 		<card>
-			<div in:fly={{ duration: pageTransitionDuration, delay: pageTransitionDuration / 5, y: 50 }}>
+			<div
+				in:fly={{ duration: pageTransitionDuration, delay: pageTransitionDuration / 5, y: 50 }}
+				class="relative"
+			>
 				<slot />
 			</div>
 		</card>
@@ -21,7 +24,7 @@
 
 <img src="/images/login_topography.svg" id="background" alt="topography vector background" defer />
 
-<style>
+<style lang="scss">
 	#background {
 		@apply fixed top-0 left-0;
 		z-index: -10;
@@ -33,12 +36,16 @@
 
 	content {
 		@apply relative flex h-screen items-center justify-center;
+		min-width: 300px;
+		min-height: 300px;
+		transition: all 0.1s ease-in;
 	}
 	card {
-		@apply mx-2 text-center px-4 py-8 xl:px-16 lg:py-16;
+		@apply mx-2 text-center px-4 py-8 xl:px-16 lg:py-16 grow;
 		max-width: calc(20rem + 25vmin);
 		border: solid var(--border-color) 8px;
 		background-color: var(--background-color);
 		box-shadow: var(--primary-color) 5px 5px;
+		transition: all 0.1s ease-in;
 	}
 </style>

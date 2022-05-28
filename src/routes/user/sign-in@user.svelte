@@ -4,8 +4,8 @@
 	import { signInWithEmail } from '$lib/supabase/supaAuth';
 	import { Stretch } from 'svelte-loading-spinners';
 
-	let email: string | undefined = 'jerzakm@gmail.com';
-	let password: string | undefined = 'corinth22';
+	let email: string | undefined = '';
+	let password: string | undefined = '';
 
 	let status: 'SIGN_IN' | 'SIGNING_IN' | 'SIGNED_IN' = 'SIGN_IN';
 
@@ -43,7 +43,10 @@
 	culpa autem, at itaque nostrum!
 </p>
 
-<div class="logging-in-field" style={`transform: scale${status != 'SIGN_IN' ? '(1.1)' : '(0.0)'};`}>
+<div
+	class="logging-in-field"
+	style={`transform: scale${status != 'SIGN_IN' ? '(1.05)' : '(0.0)'};`}
+>
 	{#if status == 'SIGNING_IN'}
 		<h2 class="text-2xl">Signing in..</h2>
 		<Stretch size="30" color="var(--primary-color)" unit="%" duration="2s" />
@@ -127,13 +130,13 @@
 	</div>
 	<p class="text-sm ">
 		No account?
-		<a class="underline font-bold" href="/user/signup">Sign up</a>
+		<a class="underline font-bold" href="/user/sign-up">Sign up</a>
 	</p>
 </form>
 
 <style lang="scss">
 	.login-input {
-		@apply w-full p-4 pr-12 text-sm;
+		@apply w-full p-4 pr-12;
 	}
 	.logging-in-field {
 		@apply absolute w-full h-full flex flex-col items-center justify-around top-0 left-0;

@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+
 	import Button from '$lib/components/Button.svelte';
 
 	function submitLogin(e: MouseEvent) {
 		e.preventDefault();
-		console.log('logging in...');
+		goto('/user/sign-in');
 	}
 </script>
 
@@ -13,7 +15,7 @@
 	on:click={submitLogin}
 	class="w-full"
 	style="background-color: var(--primary-color); color: var(--background-color); justify-content:center; "
-	>Sign in</Button
+	href="/user/sign-in">Sign in</Button
 >
 
 <style lang="scss">

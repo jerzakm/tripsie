@@ -12,7 +12,7 @@
 		if (!email || !password) return;
 		const res = await registerWithEmail(email, password);
 		if (!res.error) {
-			await goto('/user/thankYou');
+			await goto('/user/thank-you');
 		}
 	}
 </script>
@@ -91,12 +91,12 @@
 	</div>
 	<p class="text-sm ">
 		You already have an account?
-		<a class="underline font-bold" href="/user/signin">Sign in</a>
+		<a class="underline font-bold" href="/user/sign-in">Sign in</a>
 	</p>
 </form>
 
 <style lang="scss">
 	.login-input {
-		@apply w-full p-4 pr-12 text-sm;
+		@apply w-full p-4 pr-12;
 	}
 </style>
