@@ -1,14 +1,38 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import LottieAnimation from '$lib/components/LottieAnimation/index.svelte';
 	import { signInWithEmail } from '$lib/supabase/supaAuth';
+	import { Stretch } from 'svelte-loading-spinners';
 
-	let email: string | undefined;
-	let password: string | undefined;
+	let email: string | undefined = 'jerzakm@gmail.com';
+	let password: string | undefined = 'corinth22';
+
+	let status: 'SIGN_IN' | 'SIGNING_IN' | 'SIGNED_IN' = 'SIGN_IN';
 
 	async function submitLogin(e: MouseEvent) {
 		e.preventDefault();
-		if (!email || !password) return;
+
+		const start = new Date().getTime() * 1;
+
+		status = 'SIGNING_IN';
+
+		if (!email || !password) {
+			status = 'SIGN_IN';
+			return;
+		}
 		const { error, session, user } = await signInWithEmail(email, password);
+		if (!error && session) {
+			const end = new Date().getTime() + 1;
+
+			const delay = 1000 - (end - start);
+
+			setTimeout(() => {
+				status = 'SIGNED_IN';
+
+				console.log(`k - ${new Date().getTime() - start}; ${delay}`);
+			}, delay);
+		}
+
 		console.log({ error, session, user });
 	}
 </script>
@@ -18,7 +42,21 @@
 	Lorem ipsum dolor sit amet consectetur adipisicing elit. Et libero nulla eaque error neque ipsa
 	culpa autem, at itaque nostrum!
 </p>
-<form action="" class="max-w-md mx-auto mt-8 mb-0 space-y-4">
+
+<div class="logging-in-field" style={`transform: scale${status != 'SIGN_IN' ? '(1.1)' : '(0.0)'};`}>
+	{#if status == 'SIGNING_IN'}
+		<h2 class="text-2xl">Signing in..</h2>
+		<Stretch size="30" color="var(--primary-color)" unit="%" duration="2s" />
+	{:else if status == 'SIGNED_IN'}
+		<h2 class="text-2xl">Yay! You're in!</h2>
+		<div class="h-64">
+			<LottieAnimation icon="confetti" autoplay />
+		</div>
+		<Button href="/" class="w-full">Let's go!</Button>
+	{/if}
+</div>
+
+<form action="" class="max-w-md mx-auto mt-8 mb-0 space-y-4 relative">
 	<div>
 		<label for="email" class="sr-only">Email</label>
 		<div class="relative">
@@ -45,6 +83,7 @@
 
 	<div>
 		<label for="password" class="sr-only">Password</label>
+
 		<div class="relative">
 			<input
 				type="password"
@@ -95,5 +134,15 @@
 <style lang="scss">
 	.login-input {
 		@apply w-full p-4 pr-12 text-sm;
+	}
+	.logging-in-field {
+		@apply absolute w-full h-full flex flex-col items-center justify-around top-0 left-0;
+		background-color: var(--background-color);
+		z-index: 50;
+		transform-origin: 50% 50%;
+		transition: 0.15s ease-in all;
+		h2 {
+			@apply font-bold mt-4 mb-4;
+		}
 	}
 </style>
