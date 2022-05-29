@@ -44,6 +44,7 @@
 		"animejs": "^3.2.1",
 		"cookie": "^0.4.1",
 		"lottie-web": "^5.9.4",
-		"mapbox-gl": "^2.8.2"
+		"mapbox-gl": "^2.8.2",
+		"svelte-forms": "^2.3.1"
 	}
 }

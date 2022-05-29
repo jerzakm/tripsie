@@ -6,18 +6,25 @@
 	import { createEventDispatcher, onMount } from 'svelte';
 	import anime from 'animejs';
 
-	let email: string | undefined = '';
-	let password: string | undefined = '';
+	import { form, field } from 'svelte-forms';
+	import { required, email } from 'svelte-forms/validators';
+
+	const login = field('email', '', [required(), email()], {
+		stopAtFirstError: true,
+		validateOnChange: false
+	});
+	const password = field('password', '', [required()], {
+		stopAtFirstError: true,
+		validateOnChange: false
+	});
+	const signUpForm = form(login, password);
 
 	let status: 'SIGN_IN' | 'SIGNING_IN' | 'SIGNED_IN' = 'SIGN_IN';
 
 	let errorMessage: string | undefined;
 	let errorMessageEl: HTMLElement | undefined;
 
-	export let err = 'testing';
-
 	let errorElement: any;
-
 	$: errorAnimation =
 		errorElement &&
 		anime({
@@ -46,7 +53,7 @@
 			status = 'SIGN_IN';
 			return;
 		}
-		const { error, session, user } = await signInWithEmail(email, password);
+		const { error, session, user } = await signInWithEmail($login.value, $password.value);
 
 		// SUCCESS
 		if (!error && session) {
@@ -90,6 +97,7 @@
 	{/if}
 </div>
 
+<!-- svelte-ignore component-name-lowercase -->
 <form
 	action=""
 	class={`max-w-md mx-auto mt-8 mb-0 space-y-4 relative ${
@@ -99,8 +107,16 @@
 	<div>
 		<label for="email" class="sr-only">Email</label>
 		<div class="relative">
-			<input type="email" class="login-input" placeholder="Enter email" bind:value={email} />
-
+			<input
+				type="email"
+				class="login-input"
+				placeholder="Enter email"
+				bind:value={$login.value}
+				on:blur={login.validate}
+			/>
+			{#if $login.errors}
+				<span class="input-error-tooltip">{$login.errors}</span>
+			{/if}
 			<span class="absolute inset-y-0 inline-flex items-center right-4">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -127,8 +143,12 @@
 				type="password"
 				class="login-input"
 				placeholder="Enter password"
-				bind:value={password}
+				bind:value={$password.value}
+				on:blur={password.validate}
 			/>
+			{#if $password.errors}
+				<span class="input-error-tooltip">{$password.errors}</span>
+			{/if}
 			<span class="absolute inset-y-0 inline-flex items-center right-4">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -186,6 +206,13 @@
 		}
 	}
 	.login-error-message {
+		color: var(--error-color);
+	}
+	.input-error-tooltip {
+		@apply absolute left-0 w-full text-xxs;
+		padding: 0rem 0.5rem;
+		bottom: 0.2rem;
+		width: 100%;
 		color: var(--error-color);
 	}
 </style>

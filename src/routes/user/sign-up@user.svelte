@@ -3,15 +3,25 @@
 
 	import Button from '$lib/components/Button.svelte';
 	import { registerWithEmail } from '$lib/supabase/supaAuth';
+	import { form, field } from 'svelte-forms';
+	import { required, email, between } from 'svelte-forms/validators';
 
-	let email: string | undefined;
-	let password: string | undefined;
+	const login = field('email', '', [required(), email()], {
+		stopAtFirstError: true,
+		validateOnChange: false
+	});
+	const password = field('password', '', [required(), between(8, 64)], {
+		stopAtFirstError: true,
+		validateOnChange: false
+	});
+	const signUpForm = form(login, password);
 
 	async function submitLogin(e: MouseEvent) {
 		e.preventDefault();
-		if (!email || !password) return;
-		const res = await registerWithEmail(email, password);
-		if (!res.error) {
+		if (!login || !password) return;
+		const { user, session, error } = await registerWithEmail($login.value, $password.value);
+		console.log(user, session, error);
+		if (!error) {
 			await goto('/user/thank-you');
 		}
 	}
@@ -21,12 +31,21 @@
 <p class="mt-4">
 	Register to join the Tripsie community, explore the world map, watch videos, comment & share.
 </p>
+<!-- svelte-ignore component-name-lowercase -->
 <form action="" class="max-w-md mx-auto mt-8 mb-0 space-y-4">
 	<div>
 		<label for="email" class="sr-only">Email</label>
 		<div class="relative">
-			<input type="email" class="login-input" placeholder="Enter email" bind:value={email} />
-
+			<input
+				type="email"
+				class="login-input"
+				placeholder="Enter email"
+				bind:value={$login.value}
+				on:blur={login.validate}
+			/>
+			{#if $login.errors}
+				<span class="input-error-tooltip">{$login.errors}</span>
+			{/if}
 			<span class="absolute inset-y-0 inline-flex items-center right-4">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -53,8 +72,12 @@
 				type="password"
 				class="login-input"
 				placeholder="Enter password"
-				bind:value={password}
+				bind:value={$password.value}
+				on:blur={password.validate}
 			/>
+			{#if $password.errors}
+				<span class="input-error-tooltip">{$password.errors}</span>
+			{/if}
 
 			<span class="absolute inset-y-0 inline-flex items-center right-4">
 				<svg
@@ -98,5 +121,12 @@
 <style lang="scss">
 	.login-input {
 		@apply w-full p-4 pr-12;
+	}
+	.input-error-tooltip {
+		@apply absolute left-0 w-full text-xxs;
+		padding: 0rem 0.5rem;
+		bottom: 0.2rem;
+		width: 100%;
+		color: var(--error-color);
 	}
 </style>
