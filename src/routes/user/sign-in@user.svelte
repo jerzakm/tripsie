@@ -3,11 +3,37 @@
 	import LottieAnimation from '$lib/components/LottieAnimation/index.svelte';
 	import { signInWithEmail } from '$lib/supabase/supaAuth';
 	import { Stretch } from 'svelte-loading-spinners';
+	import { createEventDispatcher, onMount } from 'svelte';
+	import anime from 'animejs';
 
 	let email: string | undefined = '';
 	let password: string | undefined = '';
 
 	let status: 'SIGN_IN' | 'SIGNING_IN' | 'SIGNED_IN' = 'SIGN_IN';
+
+	let errorMessage: string | undefined;
+	let errorMessageEl: HTMLElement | undefined;
+
+	export let err = 'testing';
+
+	let errorElement: any;
+
+	$: errorAnimation =
+		errorElement &&
+		anime({
+			targets: errorElement,
+			translateX: [-10, 10, -10, 10],
+			loop: 2,
+			autoplay: false,
+			duration: 180,
+			easing: 'easeOutSine'
+		});
+
+	$: errorMessage && errorAnimation?.play();
+
+	onMount(() => {
+		errorElement = errorMessageEl?.parentElement?.parentElement?.parentElement;
+	});
 
 	async function submitLogin(e: MouseEvent) {
 		e.preventDefault();
@@ -21,16 +47,21 @@
 			return;
 		}
 		const { error, session, user } = await signInWithEmail(email, password);
+
+		// SUCCESS
 		if (!error && session) {
 			const end = new Date().getTime() + 1;
 
 			const delay = 1000 - (end - start);
 
-			setTimeout(() => {
-				status = 'SIGNED_IN';
+			setTimeout(() => (status = 'SIGNED_IN'), delay);
+		}
 
-				console.log(`k - ${new Date().getTime() - start}; ${delay}`);
-			}, delay);
+		// ERROR
+		if (error) {
+			errorMessage = undefined;
+			status = 'SIGN_IN';
+			errorMessage = error.message;
 		}
 
 		console.log({ error, session, user });
@@ -91,7 +122,6 @@
 
 	<div>
 		<label for="password" class="sr-only">Password</label>
-
 		<div class="relative">
 			<input
 				type="password"
@@ -99,7 +129,6 @@
 				placeholder="Enter password"
 				bind:value={password}
 			/>
-
 			<span class="absolute inset-y-0 inline-flex items-center right-4">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +162,10 @@
 			>Sign in</Button
 		>
 	</div>
-	<p class="text-sm ">
+	<p class="h-8 w-full mt-16 login-error-message" bind:this={errorMessageEl}>
+		{errorMessage || ''}
+	</p>
+	<p class="text-sm">
 		No account?
 		<a class="underline font-bold" href="/user/sign-up">Sign up</a>
 	</p>
@@ -148,9 +180,12 @@
 		background-color: var(--background-color);
 		z-index: 50;
 		transform-origin: 50% 50%;
-		transition: 0.15s ease-in all;
+		transition: 0.05s ease-in all;
 		h2 {
 			@apply font-bold mt-4 mb-4;
 		}
+	}
+	.login-error-message {
+		color: var(--error-color);
 	}
 </style>
