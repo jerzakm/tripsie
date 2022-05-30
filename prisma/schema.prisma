@@ -8,8 +8,9 @@ generator client {
 }
 
 model User {
-  id         String  @unique @default(uuid())
-  email      String  @unique
+  id         String   @unique @default(uuid())
+  email      String   @unique
+  created_at DateTime @default(now())
   name       String?
   namePublic String?
 }
