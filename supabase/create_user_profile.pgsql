@@ -8,6 +8,11 @@ create policy "Only Users can view their profiles."
     auth.uid() = id
   );
 
+create policy "Only Users can update their profiles."
+  on public.user for update using (
+    auth.uid() = id
+  );
+
 -- Create trigger and a function to add user profile
 CREATE OR REPLACE FUNCTION auth.create_user_profile()
 returns trigger
