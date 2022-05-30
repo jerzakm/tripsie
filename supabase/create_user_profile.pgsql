@@ -3,11 +3,13 @@ alter table public.user
   enable row level security;
 
 -- Create Policy
+DROP POLICY  IF EXISTS  "Only Users can view their profiles." ON public.user;
 create policy "Only Users can view their profiles."
   on public.user for select using (
     auth.uid() = id
   );
 
+DROP POLICY  IF EXISTS  "Only Users can update their profiles." ON public.user;
 create policy "Only Users can update their profiles."
   on public.user for update using (
     auth.uid() = id
@@ -20,8 +22,8 @@ language plpgsql
 security definer set search_path = public
 as $$
   begin
-    insert into public.user(id, email)
-    values(new.id, new.email);
+    insert into public.user(id)
+    values(new.id);
   
     return new;
   end
