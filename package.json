@@ -2,7 +2,7 @@
 	"name": "tripsie",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "svelte-kit dev",
+		"dev": "svelte-kit dev --host",
 		"build": "svelte-kit build",
 		"package": "svelte-kit package",
 		"preview": "svelte-kit preview",
@@ -16,6 +16,7 @@
 		"@supabase/supabase-js": "^1.35.3",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
+		"@types/animejs": "^3.1.4",
 		"@types/cookie": "^0.4.1",
 		"@types/mapbox-gl": "^2.7.2",
 		"@typescript-eslint/eslint-plugin": "^5.10.1",
@@ -31,6 +32,7 @@
 		"sass": "^1.52.1",
 		"svelte": "^3.46.0",
 		"svelte-check": "^2.2.6",
+		"svelte-loading-spinners": "^0.1.7",
 		"svelte-preprocess": "^4.10.6",
 		"tailwindcss": "^3.0.24",
 		"tslib": "^2.3.1",
@@ -39,7 +41,10 @@
 	"type": "module",
 	"dependencies": {
 		"@prisma/client": "^3.14.0",
+		"animejs": "^3.2.1",
 		"cookie": "^0.4.1",
-		"mapbox-gl": "^2.8.2"
+		"lottie-web": "^5.9.4",
+		"mapbox-gl": "^2.8.2",
+		"svelte-forms": "^2.3.1"
 	}
 }

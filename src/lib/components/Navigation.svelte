@@ -1,5 +1,6 @@
 <script>
 	import Button from '$lib/components/Button.svelte';
+	import { signOut, userStore } from '$lib/supabase/supaAuth';
 </script>
 
 <nav>
@@ -18,16 +19,25 @@
 			<li><a href="/">Community</a></li>
 			<li><a href="/">About</a></li>
 		</ul>
-		<div class="items-center justify-end space-x-4 font-bold">
-			<!-- <a class="px-5 py-2 rounded-sm new-video" href="">Sign in </a> -->
-			<Button class="z-20 w-full" href="/">Sign in</Button>
+		<div class="items-center justify-end space-x-4 font-bold flex">
+			{#if $userStore}
+				<span class="text-xs font-normal">{$userStore.email}</span>
+				<Button
+					on:click={async () => {
+						await signOut();
+					}}>Sign out</Button
+				>
+			{:else}
+				<a href="/user/sign-in">Sign in</a>
+				<Button href="/user/sign-up">Sign up</Button>
+			{/if}
 		</div>
 	</menu>
 </nav>
 
 <style lang="scss">
 	nav {
-		@apply sticky top-0 p-5 w-full;
+		@apply fixed top-0 p-5 w-full;
 		@apply flex justify-between items-center;
 		z-index: 9999;
 		background: var(--background-color);

@@ -4,4 +4,5 @@
 	--text-color: black;
 	--border-color: var(--text-color);
 	--border-shadow-color: var(--text-color);
+	--error-color: #ff0000;
 }
