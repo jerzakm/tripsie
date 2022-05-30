@@ -3,6 +3,8 @@
 
 	export let justify: 'justify-center' | 'justify-between' | 'justify-start' = 'justify-center';
 
+	export let disabled = false;
+
 	const classes = `button ${$$props.class} ${justify}`;
 </script>
 
@@ -11,7 +13,15 @@
 		<slot />
 	</a>
 {:else}
-	<button class={classes} style={$$props.style} on:click on:mouseover on:mouseenter on:mouseleave>
+	<button
+		class={classes}
+		style={$$props.style}
+		on:click
+		on:mouseover
+		on:mouseenter
+		on:mouseleave
+		{disabled}
+	>
 		<slot />
 	</button>
 {/if}
@@ -25,14 +35,17 @@
 		background-color: var(--background-color);
 		transform-origin: 50% 50%;
 		transition: 100ms all ease-in;
-		&:hover {
+		&:disabled {
+			@apply grayscale;
+		}
+		&:hover:enabled {
 			background-color: var(--text-color);
 			color: var(--background-color);
 			box-shadow: var(--primary-color) 5px 5px;
 			transform: scale(1.07);
 		}
 
-		&:active {
+		&:active:enabled {
 			transform: scale(1.03);
 			box-shadow: var(--primary-color) 2px 2px;
 		}

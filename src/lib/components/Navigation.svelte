@@ -28,7 +28,8 @@
 					}}>Sign out</Button
 				>
 			{:else}
-				<Button class="w-full" href="/user/sign-in">Sign in</Button>
+				<a href="/user/sign-in">Sign in</a>
+				<Button href="/user/sign-up">Sign up</Button>
 			{/if}
 		</div>
 	</menu>

@@ -77,8 +77,7 @@
 
 <h1 class="text-2xl font-bold sm:text-3xl">Welcome!</h1>
 <p class="mt-4">
-	Lorem ipsum dolor sit amet consectetur adipisicing elit. Et libero nulla eaque error neque ipsa
-	culpa autem, at itaque nostrum!
+	Sign in to catch up with the communit and get personalized video adventure recommendations.
 </p>
 
 <div
@@ -178,16 +177,16 @@
 		<Button
 			on:click={submitLogin}
 			class="w-full"
-			style="background-color: var(--primary-color); color: var(--background-color); justify-content:center; "
-			>Sign in</Button
+			style="background-color: var(--primary-color); color: var(--background-color); justify-content:center;"
+			disabled={!$signUpForm.valid}>Sign in</Button
 		>
 	</div>
 	<p class="h-8 w-full mt-16 login-error-message" bind:this={errorMessageEl}>
 		{errorMessage || ''}
 	</p>
 	<p class="text-sm">
-		No account?
-		<a class="underline font-bold" href="/user/sign-up">Sign up</a>
+		New to Tripsie?
+		<a class="underline font-bold" href="/user/sign-up">Create an account</a>
 	</p>
 </form>
 

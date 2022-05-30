@@ -109,11 +109,11 @@
 			on:click={submitLogin}
 			class="w-full"
 			style="background-color: var(--primary-color); color: var(--background-color); justify-content:center; "
-			>Create an account</Button
+			disabled={!$signUpForm.valid}>Create an account</Button
 		>
 	</div>
 	<p class="text-sm ">
-		You already have an account?
+		Already have an account?
 		<a class="underline font-bold" href="/user/sign-in">Sign in</a>
 	</p>
 </form>
