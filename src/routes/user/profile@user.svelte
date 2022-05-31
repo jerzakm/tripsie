@@ -9,16 +9,16 @@
 
 	let user: any;
 
-	let name = 'Anonymous';
+	let name = user?.name || 'Anonymous';
+
+	const updateUserData = async () => {
+		if (!$userStore?.id) return undefined;
+		let { data, error } = await supabase.from('user ').select('*').eq('id', $userStore.id);
+		return data && data.length > 0 ? data[0] : undefined;
+	};
 
 	onMount(async () => {
-		if (!$userStore?.id) return;
-		let { data, error } = await supabase.from('user ').select('*').eq('id', $userStore.id);
-
-		user = data ? (user = data[0]) : undefined;
-		if (user?.name) name = user.name;
-
-		// console.log(data[0], error);
+		user = await updateUserData();
 	});
 
 	async function changeName() {
@@ -27,7 +27,9 @@
 
 		const { data, error } = await supabase.from('user').update({ name }).eq('id', $userStore.id);
 
-		console.log(data, error);
+		if (data) {
+			user = data[0];
+		}
 	}
 </script>
 
@@ -35,14 +37,11 @@
 
 <div class="flex flex-col mt-8">
 	<div class="grid grid-cols-2">
-		<span>Account created</span><span>{new Date(user?.created_at).toLocaleDateString()}</span>
-		<span>Email</span><span>{user?.email}</span>
-		<span>Name </span><input
-			type="text"
-			class="login-input"
-			placeholder="Enter password"
-			bind:value={name}
-		/>
+		{#if user}
+			<span>Account created</span><span>{new Date(user?.created_at).toLocaleDateString()}</span>
+			<span>Name </span>
+			<input type="text" class="login-input" placeholder="Enter password" bind:value={name} />
+		{/if}
 	</div>
 	<Button on:click={changeName}>Save</Button>
 </div>
