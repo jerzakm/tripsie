@@ -12,13 +12,15 @@ alter table public.video_submissions
 
 -- Create Policy
 DROP POLICY  IF EXISTS  "Only Users can view videos they submitted." ON public.video_submissions;
-create policy "Only Users can view videos they recommended."
+create policy "Only Users can view videos they submitted."
   on public.video_submissions for select using (
     auth.uid() = video_submissions.user
   );
 
 DROP POLICY  IF EXISTS  "Only authenticated users can submit videos." ON public.video_submissions;
-create policy "Only authenticated users can recommend videos."
+create policy "Only authenticated users can submit videos."
   on public.video_submissions for update using (
     auth.role() = 'authenticated'
   );
+
+  
