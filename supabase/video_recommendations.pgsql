@@ -19,8 +19,5 @@ create policy "Only Users can view videos they submitted."
 
 DROP POLICY  IF EXISTS  "Only authenticated users can submit videos." ON public.video_submissions;
 create policy "Only authenticated users can submit videos."
-  on public.video_submissions for update using (
-    auth.role() = 'authenticated'
-  );
-
-  
+  on public.video_submissions for insert TO authenticated 
+WITH CHECK (true);
