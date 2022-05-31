@@ -1,6 +1,14 @@
 <script>
 	import Button from '$lib/components/Button.svelte';
+	import LottieAnimation from '$lib/components/LottieAnimation/index.svelte';
 	import { signOut, userStore } from '$lib/supabase/supaAuth';
+
+	/**
+	 * @type {import("lottie-web").AnimationItem | undefined}
+	 */
+	let animation;
+
+	let dropdownOpen = false;
 </script>
 
 <nav>
@@ -19,14 +27,37 @@
 			<li><a href="/">Community</a></li>
 			<li><a href="/">About</a></li>
 		</ul>
-		<div class="items-center justify-end space-x-4 font-bold flex">
+
+		<div
+			class="items-center justify-end space-x-4 font-bold flex relative"
+			on:mouseenter={() => {
+				animation?.goToAndPlay(0);
+				dropdownOpen = true;
+			}}
+			on:mouseleave={() => {
+				dropdownOpen = false;
+			}}
+		>
 			{#if $userStore}
 				<span class="text-xs font-normal">{$userStore.email}</span>
-				<Button
-					on:click={async () => {
-						await signOut();
-					}}>Sign out</Button
+				<button
+					class="h-12 "
+					on:click={() => {
+						console.log(animation);
+					}}
 				>
+					<LottieAnimation icon={'accountOutlined'} autoplay bind:animation />
+
+					{#if dropdownOpen}
+						<dropdown class="absolute top-full right-0 w-full bg-white text-xs flex flex-col z-10">
+							<a href="/user/profile">Your profile</a>
+							<button
+								on:click={async () => {
+									await signOut();
+								}}>Sign out</button
+							>
+						</dropdown>{/if}
+				</button>
 			{:else}
 				<a href="/user/sign-in">Sign in</a>
 				<Button href="/user/sign-up">Sign up</Button>
@@ -36,17 +67,24 @@
 </nav>
 
 <style lang="scss">
+	dropdown {
+		@apply border border-black;
+		* {
+			@apply border border-black px-2 py-1;
+		}
+	}
+
 	nav {
 		@apply fixed top-0 p-5 w-full;
 		@apply flex justify-between items-center;
-		z-index: 9999;
+		z-index: 50;
 		background: var(--background-color);
 		label {
 			@apply absolute hidden top-0 right-0 cursor-pointer;
 			height: 70px;
 			width: 70px;
 			background: var(--primary-color);
-			z-index: 9999;
+			z-index: 50;
 			span {
 				display: block;
 				margin: 4px auto;
