@@ -28,36 +28,36 @@
 			<li><a href="/">About</a></li>
 		</ul>
 
-		<div
-			class="items-center justify-end space-x-4 font-bold flex relative"
-			on:mouseenter={() => {
-				animation?.goToAndPlay(0);
-				dropdownOpen = true;
-			}}
-			on:mouseleave={() => {
-				dropdownOpen = false;
-			}}
-		>
+		<div class="items-center justify-end space-x-16 font-bold flex">
+			<Button href="/video/recommend">Recommend a video</Button>
 			{#if $userStore}
-				<span class="text-xs font-normal">{$userStore.email}</span>
-				<button
-					class="h-12 "
-					on:click={() => {
-						console.log(animation);
+				<div
+					class="items-center justify-end space-x-4 font-bold flex relative"
+					on:mouseenter={() => {
+						animation?.goToAndPlay(0);
+						dropdownOpen = true;
+					}}
+					on:mouseleave={() => {
+						dropdownOpen = false;
 					}}
 				>
-					<LottieAnimation icon={'accountOutlined'} autoplay bind:animation />
+					<span class="text-xs font-normal">{$userStore.email}</span>
+					<button class="h-12 ">
+						<LottieAnimation icon={'accountOutlined'} autoplay bind:animation />
 
-					{#if dropdownOpen}
-						<dropdown class="absolute top-full right-0 w-full bg-white text-xs flex flex-col z-10">
-							<a href="/user/profile">Your profile</a>
-							<button
-								on:click={async () => {
-									await signOut();
-								}}>Sign out</button
+						{#if dropdownOpen}
+							<dropdown
+								class="absolute top-full right-0 w-full bg-white text-xs flex flex-col z-10"
 							>
-						</dropdown>{/if}
-				</button>
+								<a href="/user/profile">Your profile</a>
+								<button
+									on:click={async () => {
+										await signOut();
+									}}>Sign out</button
+								>
+							</dropdown>{/if}
+					</button>
+				</div>
 			{:else}
 				<a href="/user/sign-in">Sign in</a>
 				<Button href="/user/sign-up">Sign up</Button>
