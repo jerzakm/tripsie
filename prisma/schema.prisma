@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id                String              @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  created_at        DateTime?           @default(now()) @db.Timestamptz(6)
+  name              String?
+  video_submissions video_submissions[]
+}
+
+model video_submissions {
+  id                           String                     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  created_at                   DateTime?                  @default(now()) @db.Timestamptz(6)
+  url                          String
+  user                         String                     @db.Uuid
+  lnglat                       Unsupported("_geometry")[]
+  tags                         video_tag[]
+  user_userTovideo_submissions user                       @relation(fields: [user], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model video_tags {
+  id       String  @id
+  category String?
+  name     String
+}
+
+enum video_tag {
+  content_food
+  content_political
+  transport_boat
+  transport_car
+}
