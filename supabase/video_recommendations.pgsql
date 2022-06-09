@@ -1,6 +1,6 @@
 -- with postgis enabled, add video lnglat points
--- ALTER TABLE video_submissions
--- ADD COLUMN lnglat geometry[];
+ALTER TABLE video_submissions
+ADD COLUMN lnglat geometry[];
 
 -- example insert
 -- INSERT INTO video_submissions (url, "user", lnglat)

@@ -13,10 +13,13 @@ serve(async (req) => {
 		return new Response('ok', { headers: corsHeaders });
 	}
 
+	// (?<=\/|v=)([a-zA-Z0-9_-]{11})($|[^a-zA-Z0-9_-])
+
 	try {
-		const { name } = await req.json();
+		const { url } = await req.json();
 		const data = {
-			message: `Hello ${name}!`
+			message: `Hello ${url}!`,
+			match: url.match(/(?<=\/|v=)([a-zA-Z0-9_-]{11})($|[^a-zA-Z0-9_-])/g)
 		};
 
 		return new Response(JSON.stringify(data), {
