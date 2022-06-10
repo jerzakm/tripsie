@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { submitNewVideo } from '$lib/api/video';
-
 	import Button from '$lib/components/Button.svelte';
 	import { supabase } from '$lib/supabase/supabaseClient';
 
