@@ -14,11 +14,12 @@
 	<Navigation />
 {/key}
 
-<slot />
+<!-- <slot /> -->
 
-<!-- <main>
+<main>
 	<slot />
-</main> -->
+</main>
+
 <style>
 	main {
 		@apply flex flex-col;
