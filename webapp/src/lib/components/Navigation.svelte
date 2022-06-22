@@ -50,6 +50,8 @@
 								class="absolute top-full right-0 w-full bg-white text-xs flex flex-col z-10"
 							>
 								<a href="/user/profile">Your profile</a>
+								<a href="/admin">Admin dashboard</a>
+
 								<button
 									on:click={async () => {
 										await signOut();
@@ -75,7 +77,7 @@
 	}
 
 	nav {
-		@apply fixed top-0 p-5 w-full;
+		@apply sticky top-0 p-5 w-full;
 		@apply flex justify-between items-center;
 		z-index: 50;
 		background: var(--background-color);
