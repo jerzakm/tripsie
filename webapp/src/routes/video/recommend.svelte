@@ -3,11 +3,11 @@
 	import Card from '$lib/components/Card.svelte';
 	import { supabase } from '$lib/supabase/supabaseClient';
 
-	let userRecommendation = `https://www.youtube.com/watch?v=Kizd7nN8zJM&ab_channel=ItchyBoots`;
+	let url = `https://www.youtube.com/watch?v=QtWOegmwQP4&ab_channel=ItchyBoots`;
 
 	let videoData: any;
 
-	$: match = userRecommendation.match(/(?<=\/|v=)([a-zA-Z0-9_-]{11})/g);
+	$: match = url.match(/(?<=\/|v=)([a-zA-Z0-9_-]{11})/g);
 
 	$: match && match.length > 0 ? getYoutubeData(match[0]) : (videoData = null);
 
@@ -24,27 +24,42 @@
 	}
 
 	async function addVideo() {
-		// console.log('add video...');
-		// const { data, error } = await supabase
-		// 	.from('video_submissions')
-		// 	.insert([
-		// 		{ url: 'test', user: 'eb1c9d12-8e26-4921-b115-d09ed5376ccb', lnglat: ['POINT (1 1)'] }
-		// 	]);
+		const user = supabase.auth.user()?.id;
+
+		let lnglat: string[] | undefined;
+		if (videoData.recordingDetails.location) {
+			lnglat = [
+				`POINT (${videoData.recordingDetails.location.longitude} ${videoData.recordingDetails.location.latitude})`
+			];
+		}
+
+		if (match) {
+			const { data, error } = await supabase
+				.from('video_submissions')
+				.insert([{ youtubeId: match[0], user, lnglat }]);
+		}
 	}
 </script>
 
 <content class="mt-32 w-full flex flex-col items-center justify-center space-y-4">
-	<input class="w-1/2" bind:value={userRecommendation} />
-	<Button on:click={addVideo}>add vid</Button>
+	<input class="w-1/2" bind:value={url} />
 
 	{#if videoData}
-		<Card class="flex gap-16">
+		<Card class="flex gap-16 flex-col lg:flex-row">
 			<img src={videoData.snippet.thumbnails.high.url} />
 			<content class="flex flex-col items-start gap-4">
 				<h1 class="text-lg">{videoData.snippet.title}</h1>
 				<span><strong>Channel:</strong> {videoData.snippet.channelTitle}</span>
 				<p class="text-left">{videoData.snippet.description}</p>
+				{#if videoData.recordingDetails.location}
+					<div class="flex flex-col items-start">
+						<span><strong>{videoData.recordingDetails.locationDescription}</strong></span>
+						<span><strong>Latitude</strong> {videoData.recordingDetails.location.latitude}</span>
+						<span><strong>Longitude</strong> {videoData.recordingDetails.location.longitude}</span>
+					</div>
+				{/if}
 			</content>
 		</Card>
+		<Button on:click={addVideo}>Submit the video</Button>
 	{/if}
 </content>
