@@ -1,30 +1,56 @@
-<div>
-	<h1>review videos</h1>
-	<p>
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, animi a ex eius architecto
-		inventore perspiciatis ea totam eos fuga dolorum at illum, ducimus iure impedit, dolorem atque
-		voluptas ipsa. Quod vero illo natus, vel velit praesentium cupiditate dolorum nisi magni
-		sapiente, adipisci labore ipsum id repudiandae, aspernatur vitae illum. Ex, magnam? Ratione
-		dolorum nesciunt molestiae repellendus dicta sint placeat maxime assumenda voluptate, voluptates
-		aliquid corporis possimus neque nobis minus numquam facilis iure nostrum non ipsam vel in! Rem
-		optio sed earum, deleniti ratione aperiam maiores, omnis odio dolor nulla reiciendis aliquid
-		illum, dignissimos totam officiis provident debitis mollitia quaerat dicta eligendi. Ad
-		architecto culpa optio, nemo explicabo at, corporis voluptatibus provident est quasi quam
-		voluptatum unde tenetur sed illo ex nisi sint harum? Libero commodi ipsa quisquam earum,
-		suscipit maiores officiis quis assumenda incidunt quo ea excepturi esse ad deleniti
-		exercitationem repudiandae expedita temporibus eos nemo? Officia hic sed error culpa modi
-		deleniti consequuntur sunt perferendis iusto voluptatum, soluta veniam illum placeat, rem dolor
-		perspiciatis. Assumenda natus quis facilis ullam delectus consequuntur eos quam ex! Temporibus
-		reiciendis nobis quod labore earum. Porro laboriosam velit voluptate inventore! Libero
-		voluptatum molestiae repellat praesentium laudantium repudiandae natus, delectus optio
-		dignissimos architecto, facilis quisquam a similique voluptatem atque possimus maiores veniam
-		quidem repellendus modi, reprehenderit earum sequi excepturi. Quo possimus repudiandae voluptas
-		deleniti deserunt quis accusantium vitae perspiciatis eveniet temporibus iusto nulla voluptate
-		soluta, eius quae hic quam beatae odit nam officiis! Nam quae officia architecto cum totam
-		laborum molestiae consequatur voluptate eveniet sint ullam eius dolore maxime aspernatur, est
-		illum? Officiis sequi nihil distinctio omnis earum alias quod suscipit illum repudiandae vitae
-		obcaecati ipsum, incidunt placeat perferendis quae tempora doloribus aperiam fugiat in dolores
-		culpa provident! Aliquid consequatur est iusto! Sequi, in eligendi cum culpa voluptas fugit
-		dolorum ducimus corporis amet odio!
-	</p>
+<script lang="ts">
+	import { supabase } from '$lib/supabase/supabaseClient';
+	import { onMount } from 'svelte';
+
+	let videos: any[] = [];
+
+	onMount(async () => {
+		let { data, error } = await supabase
+			.from('video_submissions')
+			.select('id, created_at, youtubeId, lnglat, yt_data(data)');
+
+		videos = data || [];
+		console.log(videos);
+	});
+</script>
+
+<div class="relative overflow-x-auto shadow-md">
+	<table class="w-full text-sm text-left ">
+		<thead class="text-xs uppercase bg-gray-50 ">
+			<tr>
+				<th scope="col" class="px-6 py-3"> Recommended at </th>
+				<th scope="col" class="px-6 py-3" style="min-width: 300px;"> Link / Thumbnail </th>
+				<th scope="col" class="px-6 py-3"> Info </th>
+				<th scope="col" class="px-6 py-3"> Lnglat </th>
+				<th scope="col" class="px-6 py-3">
+					<span class="sr-only">Accept</span>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#each videos as video, i}
+				<tr class="bg-white border-b ">
+					<th scope="row" class="px-6 py-4 font-medium text-gray-900 "> {video.created_at} </th>
+					<td class="px-6 py-4">
+						<img src={video.yt_data.data.snippet.thumbnails.standard.url} />
+					</td>
+					<td class="px-6 py-4">
+						<h1 class="text-base">{video.yt_data.data.snippet.title}</h1>
+						<p>{video.yt_data.data.snippet.description}</p>
+					</td>
+					<td class="px-6 py-4">
+						{#if video.lnglat && video.lnglat.length > 0}
+							{#each video.lnglat as lnglat}
+								<span class="w-full">{lnglat.coordinates}</span>
+							{/each}
+						{/if}
+					</td>
+					<td class="px-6 py-4 text-right">
+						<a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a
+						>
+					</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
 </div>
