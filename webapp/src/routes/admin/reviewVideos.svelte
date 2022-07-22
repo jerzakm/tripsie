@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from '$lib/components/Button.svelte';
 	import { supabase } from '$lib/supabase/supabaseClient';
 	import { onMount } from 'svelte';
 
@@ -12,6 +13,10 @@
 		videos = data || [];
 		console.log(videos);
 	});
+
+	async function acceptVideo(video: any) {}
+
+	async function rejectVideo(video: any) {}
 </script>
 
 <div class="relative overflow-x-auto shadow-md">
@@ -45,8 +50,17 @@
 							{/each}
 						{/if}
 					</td>
-					<td class="px-6 py-4 text-right">
-						<a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a
+					<td class="px-6 py-4 flex flex-col gap-4 items-center justify-center">
+						<Button
+							on:click={() => {
+								acceptVideo(video);
+							}}>Accept</Button
+						>
+
+						<Button
+							on:click={() => {
+								rejectVideo(video);
+							}}>Reject</Button
 						>
 					</td>
 				</tr>
