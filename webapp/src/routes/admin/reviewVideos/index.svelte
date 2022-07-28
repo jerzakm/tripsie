@@ -2,19 +2,34 @@
 	import Button from '$lib/components/Button.svelte';
 	import { supabase } from '$lib/supabase/supabaseClient';
 	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
 
 	let videos: any[] = [];
 
-	onMount(async () => {
+	async function updateVideosToReview() {
 		let { data, error } = await supabase
 			.from('video_submissions')
 			.select('id, created_at, youtubeId, lnglat, yt_data(data)');
 
 		videos = data || [];
-		console.log(videos);
+	}
+
+	onMount(async () => {
+		await updateVideosToReview();
 	});
 
-	async function acceptVideo(video: any) {}
+	async function acceptVideo({ lnglat, youtubeId, id }: any) {
+		try {
+			await supabase.from('videos').insert({
+				youtubeId,
+				lnglat
+			});
+			console.log(id);
+			await updateVideosToReview();
+		} catch (e) {
+			console.log('failed to add video..', e);
+		}
+	}
 
 	async function rejectVideo(video: any) {}
 </script>
@@ -23,11 +38,11 @@
 	<table class="w-full text-sm text-left ">
 		<thead class="text-xs uppercase bg-gray-50 ">
 			<tr>
-				<th scope="col" class="px-6 py-3"> Recommended at </th>
-				<th scope="col" class="px-6 py-3" style="min-width: 300px;"> Link / Thumbnail </th>
-				<th scope="col" class="px-6 py-3"> Info </th>
-				<th scope="col" class="px-6 py-3"> Lnglat </th>
-				<th scope="col" class="px-6 py-3">
+				<th scope="col" class="px-4 py-3"> Recommended at </th>
+				<th scope="col" class="px-4 py-3" style="min-width: 300px;"> Link / Thumbnail </th>
+				<th scope="col" class="px-4 py-3"> Info </th>
+				<th scope="col" class="px-4 py-3"> Lnglat </th>
+				<th scope="col" class="px-4 py-3">
 					<span class="sr-only">Accept</span>
 				</th>
 			</tr>
@@ -35,22 +50,22 @@
 		<tbody>
 			{#each videos as video, i}
 				<tr class="bg-white border-b ">
-					<th scope="row" class="px-6 py-4 font-medium text-gray-900 "> {video.created_at} </th>
-					<td class="px-6 py-4">
+					<th scope="row" class="px-4 py-4 font-medium text-gray-900 "> {video.created_at} </th>
+					<td class="px-4 py-4">
 						<img src={video.yt_data.data.snippet.thumbnails.standard.url} />
 					</td>
-					<td class="px-6 py-4">
+					<td class="px-4 py-4">
 						<h1 class="text-base">{video.yt_data.data.snippet.title}</h1>
 						<p>{video.yt_data.data.snippet.description}</p>
 					</td>
-					<td class="px-6 py-4">
+					<td class="px-4 py-4">
 						{#if video.lnglat && video.lnglat.length > 0}
 							{#each video.lnglat as lnglat}
 								<span class="w-full">{lnglat.coordinates}</span>
 							{/each}
 						{/if}
 					</td>
-					<td class="px-6 py-4 flex flex-col gap-4 items-center justify-center">
+					<td class="px-4 py-4 flex flex-col gap-4 items-center justify-center">
 						<Button
 							on:click={() => {
 								acceptVideo(video);
@@ -62,6 +77,7 @@
 								rejectVideo(video);
 							}}>Reject</Button
 						>
+						<a href={`/admin/reviewVideos/${video.id}`}>Review</a>
 					</td>
 				</tr>
 			{/each}
