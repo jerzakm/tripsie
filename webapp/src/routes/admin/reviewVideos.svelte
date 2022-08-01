@@ -5,18 +5,31 @@
 
 	let videos: any[] = [];
 
-	onMount(async () => {
+	async function updateVideosToReview() {
 		let { data, error } = await supabase
 			.from('video_submissions')
 			.select('id, created_at, youtubeId, lnglat, yt_data(data)');
 
 		videos = data || [];
-		console.log(videos);
+	}
+
+	onMount(async () => {
+		await updateVideosToReview();
 	});
 
-	async function acceptVideo(video: any) {}
+	async function acceptVideo({ id }: any) {
+		const g = await supabase.functions.invoke('reviewVideo', {
+			body: JSON.stringify({ id, accept: true })
+		});
 
-	async function rejectVideo(video: any) {}
+		console.log(g);
+	}
+
+	async function rejectVideo({ id }: any) {
+		const g = await supabase.functions.invoke('reviewVideo', {
+			body: JSON.stringify({ id, accept: false })
+		});
+	}
 </script>
 
 <div class="relative overflow-x-auto shadow-md">
